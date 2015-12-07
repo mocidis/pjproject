@@ -130,12 +130,12 @@ endif
 #       good!
 
 # SDL flags
-SDL_CFLAGS = -DPJMEDIA_VIDEO_DEV_HAS_SDL=1 -I/usr/local/include/SDL2 -D_REENTRANT
-SDL_LDFLAGS = -L/usr/local/lib -Wl,-rpath,/usr/local/lib -lSDL2 -lpthread
+SDL_CFLAGS = 
+SDL_LDFLAGS = 
 
 # FFMPEG flags
-FFMPEG_CFLAGS =  -DPJMEDIA_HAS_LIBAVFORMAT=1 -DPJMEDIA_HAS_LIBAVCODEC=1 -DPJMEDIA_HAS_LIBSWSCALE=1 -DPJMEDIA_HAS_LIBAVUTIL=1 -I/usr/local/include   
-FFMPEG_LDFLAGS =   -pthread -L/usr/local/lib -lavformat -lavcodec -ldl -lrt -lswscale -lavutil -lm  
+FFMPEG_CFLAGS =   
+FFMPEG_LDFLAGS =   
 
 # Video4Linux2
 V4L2_CFLAGS = 
@@ -263,7 +263,7 @@ export APP_LDLIBS := $(PJSUA_LIB_LDLIB) \
 	$(APP_THIRD_PARTY_LIBS)\
 	$(APP_THIRD_PARTY_EXT)\
 	$(PJLIB_LDLIB) \
-	-lm -lrt -lpthread  -lasound -L/usr/local/lib -Wl,-rpath,/usr/local/lib -lSDL2 -lpthread  -pthread -L/usr/local/lib -lavformat -lavcodec -ldl -lrt -lswscale -lavutil -lm  
+	-lm -lrt -lpthread  -lasound  
 export APP_LDXXLIBS := $(PJSUA2_LIB_LDLIB) \
 	-lstdc++ \
 	$(APP_LDLIBS)
