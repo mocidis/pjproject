@@ -5,16 +5,18 @@ LINUX_X86_64=$PWD/../libs/linux-x86_64
 LINUX_I686=$PWD/../libs/linux-i686
 MINGW=$PWD/../libs/mingw32-i586
 MACOS=$PWD/../libs/darwin-x86_64
-
+EXT=""
 #MACOS
 uname -a | grep "Darwin"
 if [ $? == 0 ]; then
 	INSTALL_DIR=$MACOS
+	EXT="x86_64-apple-darwin12.5.0"
 fi
 #MINGW
 uname -a | grep "MINGW32"
 if [ $? == 0 ]; then
 	INSTALL_DIR=$MINGW
+	EXT="i586-pc-mingw32"
 fi
 #Linux
 uname -a | grep "Linux"
@@ -22,8 +24,10 @@ if [ $? == 0 ]; then
 	ARCHITECTURE=`uname -m`
 	if [ $ARCHITECTURE = "i686" ]; then
 		INSTALL_DIR=$LINUX_I686
+		EXT="i686-pc-linux-gnu"
 	elif [ $ARCHITECTURE = "x86_64" ]; then
 		INSTALL_DIR=$LINUX_X86_64
+		EXT="x86_64-unknown-linux-gnu"
 	fi
 fi
 
@@ -44,13 +48,12 @@ make install
 #build for intel
 rm -rf $INSTALL_DIR/include/pj*
 rm -rf $INSTALL_DIR/lib/libpj*
-rm -rf $INSTALL_DIR/libportaudio-i686-pc-linux-gnu.a
-rm -rf $INSTALL_DIR/libresample-i686-pc-linux-gnu.a
-rm -rf $INSTALL_DIR/libspeex-i686-pc-linux-gnu.a
-rm -rf $INSTALL_DIR/libg7221codec-i686-pc-linux-gnu.a
-rm -rf $INSTALL_DIR/libgsmcodec-i686-pc-linux-gnu.a
-rm -rf $INSTALL_DIR/libilbccodec-i686-pc-linux-gnu.a
-
+rm -rf $INSTALL_DIR/libportaudio-$EXT.a
+rm -rf $INSTALL_DIR/libresample-$EXT.a
+rm -rf $INSTALL_DIR/libspeex-$EXT.a
+rm -rf $INSTALL_DIR/libg7221codec-$EXT.a
+rm -rf $INSTALL_DIR/libgsmcodec-$EXT.a
+rm -rf $INSTALL_DIR/libilbccodec-$EXT.a
 make distclean
 ./configure --disable-ssl --prefix=$INSTALL_DIR CFLAGS=-I/$INSTALL_DIR/include LDFLAGS=-L/$INSTALL_DIR/lib
 make dep
