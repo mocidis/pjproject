@@ -16,6 +16,7 @@ LINUX_X86_64=$PWD/../libs/linux-x86_64
 LINUX_I686=$PWD/../libs/linux-i686
 MINGW=$PWD/../libs/mingw32-i586
 MACOS=$PWD/../libs/darwin-x86_64
+MSYS=$PWD/../libs/msys-i686
 EXT=""
 ARM=$1
 #MACOS
@@ -31,6 +32,16 @@ if [ $? == 0 ]; then
 	INSTALL_DIR=$MINGW
 	EXT="i586-pc-mingw32"
     echo "#include <pj/config_site_sample.h>" > pjlib/include/pj/config_site.h
+fi
+#MSYS
+uname -a | grep "MSYS"
+if [ $? == 0 ]; then
+	ARCHITECTURE=`uname -m`
+	if [ $ARCHITECTURE = "i686" ]; then
+		INSTALL_DIR=$MSYS
+		EXT="i686-pc-msys"
+		echo "#include <pj/config_site_sample.h>" > pjlib/include/pj/config_site.h
+	fi
 fi
 #Linux
 uname -a | grep "Linux"
