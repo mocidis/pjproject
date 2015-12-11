@@ -54,11 +54,7 @@ if [ $? == 0 ]; then
 		INSTALL_DIR=$LINUX_X86_64
 		EXT="x86_64-unknown-linux-gnu"
 	fi
-    echo "
-#include <pj/config_site_sample.h>
-#define PJMEDIA_AUDIO_DEV_HAS_PORTAUDIO 0
-#define PJMEDIA_AUDIO_DEV_HAS_ALSA 1
-" > pjlib/include/pj/config_site.h
+    echo "" > pjlib/include/pj/config_site.h
 fi
 
 if [ $ARM == 1 ]; then
@@ -72,6 +68,11 @@ if [ $ARM == 1 ]; then
         rm -rf $LINUX_ARMV7L/lib/libresample-arm-none-linux-gnueabi.a
         rm -rf $LINUX_ARMV7L/lib/libspeex-arm-none-linux-gnueabi.a
         make distclean
+		echo "
+		#include <pj/config_site_sample.h>
+		#define PJMEDIA_AUDIO_DEV_HAS_PORTAUDIO 0
+		#define PJMEDIA_AUDIO_DEV_HAS_ALSA 1
+		" > pjlib/include/pj/config_site.h
         ./configure --host=arm-none-linux-gnueabi --target=arm-none-linux-gnueabi --prefix=$LINUX_ARMV7L CFLAGS=-I$LINUX_ARMV7L/include LDFLAGS=-L$LINUX_ARMV7L/lib
         make dep
         make
