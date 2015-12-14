@@ -19,19 +19,20 @@ MACOS=$PWD/../libs/darwin-x86_64
 MSYS=$PWD/../libs/msys-i686
 EXT=""
 ARM=$1
+CONFIG_SITE_STR=""
 #MACOS
 uname -a | grep "Darwin"
 if [ $? == 0 ]; then
 	INSTALL_DIR=$MACOS
 	EXT="x86_64-apple-darwin12.5.0"
-    echo "#include <pj/config_site_sample.h>" > pjlib/include/pj/config_site.h
+	CONFIG_SITE_STR="#include <pj/config_site_sample.h>"
 fi
 #MINGW
 uname -a | grep "MINGW32"
 if [ $? == 0 ]; then
 	INSTALL_DIR=$MINGW
 	EXT="i586-pc-mingw32"
-    echo "#include <pj/config_site_sample.h>" > pjlib/include/pj/config_site.h
+	CONFIG_SITE_STR="#include <pj/config_site_sample.h>"
 fi
 #MSYS
 uname -a | grep "MSYS"
@@ -40,7 +41,7 @@ if [ $? == 0 ]; then
 	if [ $ARCHITECTURE = "i686" ]; then
 		INSTALL_DIR=$MSYS
 		EXT="i686-pc-msys"
-		echo "#include <pj/config_site_sample.h>" > pjlib/include/pj/config_site.h
+		CONFIG_SITE_STR="#include <pj/config_site_sample.h>"
 	fi
 fi
 #Linux
@@ -54,7 +55,7 @@ if [ $? == 0 ]; then
 		INSTALL_DIR=$LINUX_X86_64
 		EXT="x86_64-unknown-linux-gnu"
 	fi
-    echo "" > pjlib/include/pj/config_site.h
+	CONFIG_SITE_STR=""
 fi
 
 if [ $ARM == 1 ]; then
@@ -89,6 +90,7 @@ rm -rf $INSTALL_DIR/libg7221codec-$EXT.a
 rm -rf $INSTALL_DIR/libgsmcodec-$EXT.a
 rm -rf $INSTALL_DIR/libilbccodec-$EXT.a
 make distclean
+echo $CONFIG_SITE_STR > pjlib/include/pj/config_site.h
 ./configure --disable-ssl --prefix=$INSTALL_DIR CFLAGS=-I/$INSTALL_DIR/include LDFLAGS=-L/$INSTALL_DIR/lib
 make dep
 make
