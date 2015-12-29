@@ -62,19 +62,21 @@ if [ $ARM == 1 ]; then
         #build for arm first
         rm -rf $LINUX_ARMV7L/include/pj*
         rm -rf $LINUX_ARMV7L/lib/libpj*
-        rm -rf $LINUX_ARMV7L/lib/libg7221codec-arm-none-linux-gnueabi.a
-        rm -rf $LINUX_ARMV7L/lib/libgsmcodec-arm-none-linux-gnueabi.a
-        rm -rf $LINUX_ARMV7L/lib/libilbccodec-arm-none-linux-gnueabi.a
-        rm -rf $LINUX_ARMV7L/lib/libportaudio-arm-none-linux-gnueabi.a
-        rm -rf $LINUX_ARMV7L/lib/libresample-arm-none-linux-gnueabi.a
-        rm -rf $LINUX_ARMV7L/lib/libspeex-arm-none-linux-gnueabi.a
+        rm -rf $LINUX_ARMV7L/lib/libg7221codec-arm-unknown-linux-gnueabihf.a
+        rm -rf $LINUX_ARMV7L/lib/libgsmcodec-arm-unknown-linux-gnueabihf.a
+        rm -rf $LINUX_ARMV7L/lib/libilbccodec-arm-unknown-linux-gnueabihf.a
+        rm -rf $LINUX_ARMV7L/lib/libportaudio-arm-unknown-linux-gnueabihf.a
+        rm -rf $LINUX_ARMV7L/lib/libresample-arm-unknown-linux-gnueabihf.a
+        rm -rf $LINUX_ARMV7L/lib/libspeex-arm-unknown-linux-gnueabihf.a
+		rm -rf $LINUX_ARMV7L/lib/libsrtp-arm-unknown-linux-gnueabihf.a
         make distclean
 		echo "
 		#include <pj/config_site_sample.h>
 		#define PJMEDIA_AUDIO_DEV_HAS_PORTAUDIO 0
 		#define PJMEDIA_AUDIO_DEV_HAS_ALSA 1
 		" > pjlib/include/pj/config_site.h
-        ./configure --host=arm-none-linux-gnueabi --target=arm-none-linux-gnueabi --prefix=$LINUX_ARMV7L CFLAGS=-I$LINUX_ARMV7L/include LDFLAGS=-L$LINUX_ARMV7L/lib
+        #./configure --host=arm-none-linux-gnueabi --target=arm-none-linux-gnueabi --prefix=$LINUX_ARMV7L CFLAGS=-I$LINUX_ARMV7L/include LDFLAGS=-L$LINUX_ARMV7L/lib
+        ./configure --host=arm-linux-gnueabihf --target=arm-linux-gnueabihf --prefix=$LINUX_ARMV7L CFLAGS=-I$LINUX_ARMV7L/include LDFLAGS=-L$LINUX_ARMV7L/lib
         make dep
         make
         make install
