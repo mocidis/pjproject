@@ -92,7 +92,12 @@ rm -rf $INSTALL_DIR/libg7221codec-$EXT.a
 rm -rf $INSTALL_DIR/libgsmcodec-$EXT.a
 rm -rf $INSTALL_DIR/libilbccodec-$EXT.a
 make distclean
-echo $CONFIG_SITE_STR > pjlib/include/pj/config_site.h
+echo "
+#define PJMEDIA_AUDIO_DEV_HAS_PORTAUDIO 1
+#define PJMEDIA_AUDIO_DEV_HAS_ALSA 1
+#include <pj/config_site_sample.h>
+" > pjlib/include/pj/config_site.h
+#echo $CONFIG_SITE_STR > pjlib/include/pj/config_site.h
 ./configure --disable-ssl --prefix=$INSTALL_DIR CFLAGS=-I/$INSTALL_DIR/include LDFLAGS=-L/$INSTALL_DIR/lib
 make dep
 make
