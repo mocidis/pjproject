@@ -533,7 +533,7 @@ int main(int argc, char *argv[])
 
 	/* Create sound device port. */
 	if (dir == PJMEDIA_DIR_ENCODING_DECODING)
-	    status = pjmedia_snd_port_create(pool, -1, -1, 
+	    status = pjmedia_snd_port_create(pool, 0, 8, 
 					PJMEDIA_PIA_SRATE(&stream_port->info),
 					PJMEDIA_PIA_CCNT(&stream_port->info),
 					PJMEDIA_PIA_SPF(&stream_port->info),
@@ -547,7 +547,7 @@ int main(int argc, char *argv[])
 					PJMEDIA_PIA_BITS(&stream_port->info),
 					0, &snd_port);
 	else
-	    status = pjmedia_snd_port_create_player(pool, -1, 
+	    status = pjmedia_snd_port_create_player(pool, 8, 
 					PJMEDIA_PIA_SRATE(&stream_port->info),
 					PJMEDIA_PIA_CCNT(&stream_port->info),
 					PJMEDIA_PIA_SPF(&stream_port->info),
