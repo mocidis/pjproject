@@ -12,7 +12,7 @@ export CROSS_COMPILE :=
 export LINUX_POLL := select 
 export SHLIB_SUFFIX := so
 
-export prefix := /root/workspace/ics-project/pjproject/../libs/linux-i686
+export prefix := ../libs/linux-i686
 export exec_prefix := ${prefix}
 export includedir := ${prefix}/include
 export libdir := ${exec_prefix}/lib
@@ -169,7 +169,7 @@ PJ_VIDEO_LDFLAGS += $(SDL_LDFLAGS) $(FFMPEG_LDFLAGS) $(V4L2_LDFLAGS) \
 export APP_CC := gcc
 export APP_CXX := g++
 export APP_CFLAGS := -DPJ_AUTOCONF=1\
-	-I//root/workspace/ics-project/pjproject/../libs/linux-i686/include -DPJ_IS_BIG_ENDIAN=0 -DPJ_IS_LITTLE_ENDIAN=1\
+	-O2 -DPJ_IS_BIG_ENDIAN=0 -DPJ_IS_LITTLE_ENDIAN=1\
 	$(PJ_VIDEO_CFLAGS) \
 	-I$(PJDIR)/pjlib/include\
 	-I$(PJDIR)/pjlib-util/include\
@@ -184,7 +184,7 @@ export APP_LDFLAGS := -L$(PJDIR)/pjlib/lib\
 	-L$(PJDIR)/pjsip/lib\
 	-L$(PJDIR)/third_party/lib\
 	$(PJ_VIDEO_LDFLAGS) \
-	-L//root/workspace/ics-project/pjproject/../libs/linux-i686/lib
+	
 export APP_LDXXFLAGS := $(APP_LDFLAGS)
 
 export APP_LIB_FILES := \
@@ -263,7 +263,7 @@ export APP_LDLIBS := $(PJSUA_LIB_LDLIB) \
 	$(APP_THIRD_PARTY_LIBS)\
 	$(APP_THIRD_PARTY_EXT)\
 	$(PJLIB_LDLIB) \
-	-lm -lrt -lpthread  -lasound  
+	-lm -lrt -lpthread   
 export APP_LDXXLIBS := $(PJSUA2_LIB_LDLIB) \
 	-lstdc++ \
 	$(APP_LDLIBS)
@@ -283,9 +283,9 @@ export PJ_LIBXX_FILES := $(APP_LIBXX_FILES)
 
 # And here are the variables to use if application is using the
 # library from the install location (i.e. --prefix)
-export PJ_INSTALL_DIR := /root/workspace/ics-project/pjproject/../libs/linux-i686
+export PJ_INSTALL_DIR := ../libs/linux-i686
 export PJ_INSTALL_INC_DIR := ${prefix}/include
 export PJ_INSTALL_LIB_DIR := ${exec_prefix}/lib
-export PJ_INSTALL_CFLAGS := -I$(PJ_INSTALL_INC_DIR) -DPJ_AUTOCONF=1	-I//root/workspace/ics-project/pjproject/../libs/linux-i686/include -DPJ_IS_BIG_ENDIAN=0 -DPJ_IS_LITTLE_ENDIAN=1
+export PJ_INSTALL_CFLAGS := -I$(PJ_INSTALL_INC_DIR) -DPJ_AUTOCONF=1	-O2 -DPJ_IS_BIG_ENDIAN=0 -DPJ_IS_LITTLE_ENDIAN=1
 export PJ_INSTALL_CXXFLAGS := $(PJ_INSTALL_CFLAGS)
 export PJ_INSTALL_LDFLAGS := -L$(PJ_INSTALL_LIB_DIR) $(APP_LDLIBS)

@@ -196,6 +196,13 @@ PJ_DECL(pj_status_t) pjmedia_stream_create(pjmedia_endpt *endpt,
 					   void *user_data,
 					   pjmedia_stream **p_stream);
 
+/* Tung - for COR/VOX */
+PJ_DECL(pj_status_t) pjmedia_stream_set_vad_options(pjmedia_stream *stream,
+                       void (*on_vad_enc_state)(int active, void *udata),
+                       void (*on_vad_dec_state)(int active, void *udata), void *vad_data);
+/* Tung - for COR/VOX */
+PJ_DECL(pj_status_t) pjmedia_stream_update_vad(pjmedia_stream *stream, int threshold);
+
 /**
  * Destroy the media stream.
  *

@@ -24,7 +24,7 @@ export TEST_OBJS +=	main.o
 # Additional LDFLAGS for pjlib-test
 #
 # Disabled, as this causes duplicated LDFLAGS, which may raise linking errors
-#export TEST_LDFLAGS += -L//root/workspace/ics-project/pjproject/../libs/linux-i686/lib -lm -lrt -lpthread  -lasound  
+#export TEST_LDFLAGS +=  -lm -lrt -lpthread   
 
 #
 # TARGETS are make targets in the Makefile, to be executed for this given
