@@ -5,23 +5,23 @@
 #   - mac_os
 #   - iphone_os
 #   - android_os
-AC_PJMEDIA_VIDEO = 
+AC_PJMEDIA_VIDEO = mac_os
 
 # SDL flags
 SDL_CFLAGS = 
 SDL_LDFLAGS = 
 
 # FFMPEG dlags
-FFMPEG_CFLAGS =   
-FFMPEG_LDFLAGS =   
+FFMPEG_CFLAGS =  -DPJMEDIA_HAS_LIBAVFORMAT=1 -DPJMEDIA_HAS_LIBAVCODEC=1 -DPJMEDIA_HAS_LIBSWSCALE=1 -DPJMEDIA_HAS_LIBAVUTIL=1 -I/opt/local/include  
+FFMPEG_LDFLAGS =   -L/opt/local/lib -lavformat -lavcodec -lswscale -lavutil 
 
 # Video4Linux2
 V4L2_CFLAGS = 
 V4L2_LDFLAGS = 
 
 # QT
-AC_PJMEDIA_VIDEO_HAS_QT = 
-QT_CFLAGS = 
+AC_PJMEDIA_VIDEO_HAS_QT = yes
+QT_CFLAGS = -DPJMEDIA_VIDEO_DEV_HAS_QT=1
 
 # iOS
 IOS_CFLAGS = 
@@ -55,12 +55,12 @@ export LDFLAGS += $(SDL_LDFLAGS) $(FFMPEG_LDFLAGS) $(V4L2_LDFLAGS) \
 #   - ds:	    	Win32 DirectSound (dsound.c)
 #   - null:	    	Null sound device (nullsound.c)
 #   - external:		Link with no sounddev (app will provide)
-AC_PJMEDIA_SND=pa_unix
+AC_PJMEDIA_SND=pa_darwinos
 
 # For Unix, specify if ALSA should be supported
-AC_PA_USE_ALSA=1
+AC_PA_USE_ALSA=
 
-# Additional PortAudio CFLAGS are in  -DHAVE_SYS_SOUNDCARD_H -DHAVE_LINUX_SOUNDCARD_H -DPA_LITTLE_ENDIAN
+# Additional PortAudio CFLAGS are in  -DPA_LITTLE_ENDIAN
 
 #
 # Codecs
@@ -77,7 +77,7 @@ AC_NO_OPENCORE_AMRWB=1
 
 export CODEC_OBJS=
 
-export PJMEDIA_AUDIODEV_OBJS +=  
+export PJMEDIA_AUDIODEV_OBJS += coreaudio_dev.o 
 
 ifeq ($(AC_NO_G711_CODEC),1)
 export CFLAGS += -DPJMEDIA_HAS_G711_CODEC=0

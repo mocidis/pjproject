@@ -10,15 +10,15 @@
 # There are other values below, but these are handled by PJMEDIA's Makefile
 #   - ds:	    	Win32 DirectSound (dsound.c)
 #   - null:	    	Null sound device (nullsound.c)
-AC_PJMEDIA_SND=pa_unix
+AC_PJMEDIA_SND=pa_darwinos
 
 # For Unix, specify if ALSA should be supported
-AC_PA_USE_ALSA=1
+AC_PA_USE_ALSA=
 
 # For Unix, specify if OSS should be supported
-AC_PA_USE_OSS=1
+AC_PA_USE_OSS=
 
-# Additional PortAudio CFLAGS are in  -DHAVE_SYS_SOUNDCARD_H -DHAVE_LINUX_SOUNDCARD_H -DPA_LITTLE_ENDIAN
+# Additional PortAudio CFLAGS are in  -DPA_LITTLE_ENDIAN
 
 
 #
@@ -34,7 +34,7 @@ export CFLAGS += -DPA_USE_ALSA=1
 export PORTAUDIO_OBJS += pa_linux_alsa.o
 endif
 
-export CFLAGS +=  -DHAVE_SYS_SOUNDCARD_H -DHAVE_LINUX_SOUNDCARD_H -DPA_LITTLE_ENDIAN
+export CFLAGS +=  -DPA_LITTLE_ENDIAN
 endif
 
 # Include OSS?
@@ -54,7 +54,7 @@ export PORTAUDIO_OBJS +=pa_mac_hostapis.o \
 			pa_mac_core_utilities.o \
 			pa_ringbuffer.o
 export CFLAGS += -DPA_USE_COREAUDIO=1
-export CFLAGS +=  -DHAVE_SYS_SOUNDCARD_H -DHAVE_LINUX_SOUNDCARD_H -DPA_LITTLE_ENDIAN
+export CFLAGS +=  -DPA_LITTLE_ENDIAN
 endif
 
 #
@@ -65,7 +65,7 @@ export PORTAUDIO_OBJS +=pa_mac_hostapis.o \
 			pa_unix_util.o \
 			pa_mac_core_old.o 
 export CFLAGS += -DPA_USE_COREAUDIO=1
-export CFLAGS +=  -DHAVE_SYS_SOUNDCARD_H -DHAVE_LINUX_SOUNDCARD_H -DPA_LITTLE_ENDIAN
+export CFLAGS +=  -DPA_LITTLE_ENDIAN
 endif
 
 #

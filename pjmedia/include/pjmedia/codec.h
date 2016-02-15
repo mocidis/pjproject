@@ -485,6 +485,9 @@ typedef struct pjmedia_codec_op
     pj_status_t (*recover)(pjmedia_codec *codec,
 			   unsigned out_size,
 			   struct pjmedia_frame *output);
+
+    /* TUNG - for COR/VOX */
+    pj_status_t (*update_vad)(pjmedia_codec *codec, int threshold);
 } pjmedia_codec_op;
 
 
@@ -1112,6 +1115,15 @@ PJ_INLINE(pj_status_t) pjmedia_codec_recover( pjmedia_codec *codec,
 	return (*codec->op->recover)(codec, out_size, output);
     else
 	return PJ_ENOTSUP;
+}
+
+/* TUNG - for COR/VOX */
+PJ_INLINE(pj_status_t) pjmedia_codec_update_vad( pjmedia_codec *codec, int threshold) 
+{
+    if(codec->op && codec->op->update_vad) {
+        return (*codec->op->update_vad)(codec, threshold);
+    }
+    return PJ_ENOTSUP;
 }
 
 

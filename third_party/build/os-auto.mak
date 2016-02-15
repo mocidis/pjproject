@@ -23,7 +23,7 @@ ifneq (,1)
 DIRS += g7221
 endif
 
-ifneq ($(findstring pa,pa_unix),)
+ifneq ($(findstring pa,pa_darwinos),)
 ifeq (0,1)
 # External PA
 else

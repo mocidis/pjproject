@@ -11,11 +11,16 @@ exit
 fi
 
 #define constant variable
-LINUX_ARMV7L=$PWD/../libs/linux-armv7l
-LINUX_X86_64=$PWD/../libs/linux-x86_64
-LINUX_I686=$PWD/../libs/linux-i686
-MINGW=$PWD/../libs/mingw32-i586
-MACOS=$PWD/../libs/darwin-x86_64
+#LINUX_ARMV7L=$PWD/../libs/linux-armv7l
+#LINUX_X86_64=$PWD/../libs/linux-x86_64
+#LINUX_I686=$PWD/../libs/linux-i686
+#MINGW=$PWD/../libs/mingw32-i586
+#MACOS=$PWD/../libs/darwin-x86_64
+LINUX_ARMV7L=../libs/linux-armv7l
+LINUX_X86_64=../libs/linux-x86_64
+LINUX_I686=../libs/linux-i686
+MINGW=../libs/mingw32-i586
+MACOS=../libs/darwin-x86_64
 EXT=""
 ARM=$1
 #MACOS
@@ -77,7 +82,8 @@ rm -rf $INSTALL_DIR/libg7221codec-$EXT.a
 rm -rf $INSTALL_DIR/libgsmcodec-$EXT.a
 rm -rf $INSTALL_DIR/libilbccodec-$EXT.a
 make distclean
-./configure --disable-ssl --prefix=$INSTALL_DIR CFLAGS=-I/$INSTALL_DIR/include LDFLAGS=-L/$INSTALL_DIR/lib
+#./configure --disable-ssl --prefix=$INSTALL_DIR CFLAGS=-I$INSTALL_DIR/include LDFLAGS=-L$INSTALL_DIR/lib
+./configure --disable-ssl --prefix=$INSTALL_DIR
 make dep
 make
 make install

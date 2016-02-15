@@ -1,4 +1,4 @@
-export PJDIR := /root/workspace/ics-project/pjproject
+export PJDIR := /Users/remurd/workspace/dicom/pjproject
 include $(PJDIR)/version.mak
 export PJ_DIR := $(PJDIR)
 
@@ -7,12 +7,12 @@ export MACHINE_NAME := auto
 export OS_NAME := auto
 export HOST_NAME := unix
 export CC_NAME := gcc
-export TARGET_NAME := i686-pc-linux-gnu
+export TARGET_NAME := x86_64-apple-darwin12.6.0
 export CROSS_COMPILE := 
 export LINUX_POLL := select 
-export SHLIB_SUFFIX := so
+export SHLIB_SUFFIX := dylib
 
-export prefix := /root/workspace/ics-project/pjproject/../libs/linux-i686
+export prefix := ../libs/darwin-x86_64
 export exec_prefix := ${prefix}
 export includedir := ${prefix}/include
 export libdir := ${exec_prefix}/lib
@@ -106,7 +106,7 @@ APP_THIRD_PARTY_LIB_FILES += $(PJ_DIR)/third_party/lib/libg7221codec.$(SHLIB_SUF
 endif
 endif
 
-ifneq ($(findstring pa,pa_unix),)
+ifneq ($(findstring pa,pa_darwinos),)
 ifeq (0,1)
 # External PA
 APP_THIRD_PARTY_EXT += -lportaudio
@@ -134,8 +134,8 @@ SDL_CFLAGS =
 SDL_LDFLAGS = 
 
 # FFMPEG flags
-FFMPEG_CFLAGS =   
-FFMPEG_LDFLAGS =   
+FFMPEG_CFLAGS =  -DPJMEDIA_HAS_LIBAVFORMAT=1 -DPJMEDIA_HAS_LIBAVCODEC=1 -DPJMEDIA_HAS_LIBSWSCALE=1 -DPJMEDIA_HAS_LIBAVUTIL=1 -I/opt/local/include  
+FFMPEG_LDFLAGS =   -L/opt/local/lib -lavformat -lavcodec -lswscale -lavutil 
 
 # Video4Linux2
 V4L2_CFLAGS = 
@@ -146,8 +146,8 @@ OPENH264_CFLAGS =
 OPENH264_LDFLAGS =  
 
 # QT
-AC_PJMEDIA_VIDEO_HAS_QT = 
-QT_CFLAGS = 
+AC_PJMEDIA_VIDEO_HAS_QT = yes
+QT_CFLAGS = -DPJMEDIA_VIDEO_DEV_HAS_QT=1
 
 # iOS
 IOS_CFLAGS = 
@@ -169,7 +169,7 @@ PJ_VIDEO_LDFLAGS += $(SDL_LDFLAGS) $(FFMPEG_LDFLAGS) $(V4L2_LDFLAGS) \
 export APP_CC := gcc
 export APP_CXX := g++
 export APP_CFLAGS := -DPJ_AUTOCONF=1\
-	-I//root/workspace/ics-project/pjproject/../libs/linux-i686/include -DPJ_IS_BIG_ENDIAN=0 -DPJ_IS_LITTLE_ENDIAN=1\
+	-O2 -DPJ_IS_BIG_ENDIAN=0 -DPJ_IS_LITTLE_ENDIAN=1\
 	$(PJ_VIDEO_CFLAGS) \
 	-I$(PJDIR)/pjlib/include\
 	-I$(PJDIR)/pjlib-util/include\
@@ -184,7 +184,7 @@ export APP_LDFLAGS := -L$(PJDIR)/pjlib/lib\
 	-L$(PJDIR)/pjsip/lib\
 	-L$(PJDIR)/third_party/lib\
 	$(PJ_VIDEO_LDFLAGS) \
-	-L//root/workspace/ics-project/pjproject/../libs/linux-i686/lib
+	
 export APP_LDXXFLAGS := $(APP_LDFLAGS)
 
 export APP_LIB_FILES := \
@@ -263,7 +263,7 @@ export APP_LDLIBS := $(PJSUA_LIB_LDLIB) \
 	$(APP_THIRD_PARTY_LIBS)\
 	$(APP_THIRD_PARTY_EXT)\
 	$(PJLIB_LDLIB) \
-	-lm -lrt -lpthread  -lasound  
+	-lm -lpthread  -framework CoreAudio -framework CoreServices -framework AudioUnit -framework AudioToolbox -framework Foundation -framework AppKit -framework QTKit -framework QuartzCore -framework OpenGL  -L/opt/local/lib -lavformat -lavcodec -lswscale -lavutil 
 export APP_LDXXLIBS := $(PJSUA2_LIB_LDLIB) \
 	-lstdc++ \
 	$(APP_LDLIBS)
@@ -283,9 +283,9 @@ export PJ_LIBXX_FILES := $(APP_LIBXX_FILES)
 
 # And here are the variables to use if application is using the
 # library from the install location (i.e. --prefix)
-export PJ_INSTALL_DIR := /root/workspace/ics-project/pjproject/../libs/linux-i686
+export PJ_INSTALL_DIR := ../libs/darwin-x86_64
 export PJ_INSTALL_INC_DIR := ${prefix}/include
 export PJ_INSTALL_LIB_DIR := ${exec_prefix}/lib
-export PJ_INSTALL_CFLAGS := -I$(PJ_INSTALL_INC_DIR) -DPJ_AUTOCONF=1	-I//root/workspace/ics-project/pjproject/../libs/linux-i686/include -DPJ_IS_BIG_ENDIAN=0 -DPJ_IS_LITTLE_ENDIAN=1
+export PJ_INSTALL_CFLAGS := -I$(PJ_INSTALL_INC_DIR) -DPJ_AUTOCONF=1	-O2 -DPJ_IS_BIG_ENDIAN=0 -DPJ_IS_LITTLE_ENDIAN=1
 export PJ_INSTALL_CXXFLAGS := $(PJ_INSTALL_CFLAGS)
 export PJ_INSTALL_LDFLAGS := -L$(PJ_INSTALL_LIB_DIR) $(APP_LDLIBS)
