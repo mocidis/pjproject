@@ -28,14 +28,34 @@ uname -a | grep "Darwin"
 if [ $? == 0 ]; then
 	INSTALL_DIR=$MACOS
 	EXT="x86_64-apple-darwin12.5.0"
-    echo "#include <pj/config_site_sample.h>" > pjlib/include/pj/config_site.h
+    echo "
+    #include <pj/config_site_sample.h>
+    " > pjlib/include/pj/config_site.h
 fi
 #MINGW
 uname -a | grep "MINGW32"
 if [ $? == 0 ]; then
 	INSTALL_DIR=$MINGW
 	EXT="i586-pc-mingw32"
-    echo "#include <pj/config_site_sample.h>" > pjlib/include/pj/config_site.h
+    echo "
+    #define PJMEDIA_AUDIO_DEV_HAS_PORTAUDIO 1
+    #define PJMEDIA_AUDIO_DEV_HAS_ALSA 1
+    #include <pj/config_site_sample.h>
+    " > pjlib/include/pj/config_site.h
+fi
+#MSYS
+uname -a | grep "MSYS"
+if [ $? == 0 ]; then
+	ARCHITECTURE=`uname -m`
+	if [ $ARCHITECTURE = "i686" ]; then
+		INSTALL_DIR=$MSYS
+		EXT="i686-pc-msys"
+	fi
+    echo "
+    #define PJMEDIA_AUDIO_DEV_HAS_PORTAUDIO 1
+    #define PJMEDIA_AUDIO_DEV_HAS_ALSA 1
+    #include <pj/config_site_sample.h>
+    " > pjlib/include/pj/config_site.h
 fi
 #Linux
 uname -a | grep "Linux"
@@ -49,24 +69,32 @@ if [ $? == 0 ]; then
 		EXT="x86_64-unknown-linux-gnu"
 	fi
     echo "
-#include <pj/config_site_sample.h>
-#define PJMEDIA_AUDIO_DEV_HAS_PORTAUDIO 0
-#define PJMEDIA_AUDIO_DEV_HAS_ALSA 1
-" > pjlib/include/pj/config_site.h
+    #define PJMEDIA_AUDIO_DEV_HAS_PORTAUDIO 1
+    #define PJMEDIA_AUDIO_DEV_HAS_ALSA 1
+    #include <pj/config_site_sample.h>
+    " > pjlib/include/pj/config_site.h
 fi
 
 if [ $ARM == 1 ]; then
         #build for arm first
         rm -rf $LINUX_ARMV7L/include/pj*
         rm -rf $LINUX_ARMV7L/lib/libpj*
-        rm -rf $LINUX_ARMV7L/lib/libg7221codec-arm-none-linux-gnueabi.a
-        rm -rf $LINUX_ARMV7L/lib/libgsmcodec-arm-none-linux-gnueabi.a
-        rm -rf $LINUX_ARMV7L/lib/libilbccodec-arm-none-linux-gnueabi.a
-        rm -rf $LINUX_ARMV7L/lib/libportaudio-arm-none-linux-gnueabi.a
-        rm -rf $LINUX_ARMV7L/lib/libresample-arm-none-linux-gnueabi.a
-        rm -rf $LINUX_ARMV7L/lib/libspeex-arm-none-linux-gnueabi.a
+        rm -rf $LINUX_ARMV7L/lib/libg7221codec-arm-unknown-linux-gnueabihf.a
+        rm -rf $LINUX_ARMV7L/lib/libgsmcodec-arm-unknown-linux-gnueabihf.a
+        rm -rf $LINUX_ARMV7L/lib/libilbccodec-arm-unknown-linux-gnueabihf.a
+        rm -rf $LINUX_ARMV7L/lib/libportaudio-arm-unknown-linux-gnueabihf.a
+        rm -rf $LINUX_ARMV7L/lib/libresample-arm-unknown-linux-gnueabihf.a
+        rm -rf $LINUX_ARMV7L/lib/libspeex-arm-unknown-linux-gnueabihf.a
+		rm -rf $LINUX_ARMV7L/lib/libsrtp-arm-unknown-linux-gnueabihf.a
         make distclean
-        ./configure --host=arm-none-linux-gnueabi --target=arm-none-linux-gnueabi --prefix=$LINUX_ARMV7L CFLAGS=-I$LINUX_ARMV7L/include LDFLAGS=-L$LINUX_ARMV7L/lib
+		echo "
+		#include <pj/config_site_sample.h>
+		#define PJMEDIA_AUDIO_DEV_HAS_PORTAUDIO 0
+		#define PJMEDIA_AUDIO_DEV_HAS_ALSA 1
+		" > pjlib/include/pj/config_site.h
+        #./configure --host=arm-none-linux-gnueabi --target=arm-none-linux-gnueabi --prefix=$LINUX_ARMV7L CFLAGS=-I$LINUX_ARMV7L/include LDFLAGS=-L$LINUX_ARMV7L/lib
+        ./configure --host=arm-linux-gnueabihf --target=arm-linux-gnueabihf --prefix=$LINUX_ARMV7L CFLAGS=-I$LINUX_ARMV7L/include LDFLAGS=-L$LINUX_ARMV7L/lib
+        #./configure --host=arm-none-linux-gnueabi --target=arm-none-linux-gnueabi --prefix=$LINUX_ARMV7L CFLAGS=-I$LINUX_ARMV7L/include LDFLAGS=-L$LINUX_ARMV7L/lib
         make dep
         make
         make install
@@ -82,7 +110,6 @@ rm -rf $INSTALL_DIR/libg7221codec-$EXT.a
 rm -rf $INSTALL_DIR/libgsmcodec-$EXT.a
 rm -rf $INSTALL_DIR/libilbccodec-$EXT.a
 make distclean
-#./configure --disable-ssl --prefix=$INSTALL_DIR CFLAGS=-I$INSTALL_DIR/include LDFLAGS=-L$INSTALL_DIR/lib
 ./configure --disable-ssl --prefix=$INSTALL_DIR
 make dep
 make
