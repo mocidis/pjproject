@@ -110,7 +110,7 @@ rm -rf $INSTALL_DIR/libg7221codec-$EXT.a
 rm -rf $INSTALL_DIR/libgsmcodec-$EXT.a
 rm -rf $INSTALL_DIR/libilbccodec-$EXT.a
 make distclean
-./configure --disable-ssl --prefix=$INSTALL_DIR
+./configure --disable-ssl --prefix=$INSTALL_DIR CFLAGS=-I$PWD/$LINUX_I686/include LDFLAGS=-L$PWD/$LINUX_I686/lib
 make dep
 make
 make install

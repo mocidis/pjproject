@@ -46,7 +46,7 @@ struct transport_loop
 
     pj_pool_t	       *pool;		/**< Memory pool		    */
     unsigned		user_cnt;	/**< Number of attachments	    */
-    struct user		users[4];	/**< Array of users.		    */
+    struct user		users[8];	/**< Array of users.		    */
 
     unsigned		tx_drop_pct;	/**< Percent of tx pkts to drop.    */
     unsigned		rx_drop_pct;	/**< Percent of rx pkts to drop.    */
